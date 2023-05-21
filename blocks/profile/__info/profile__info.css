@@ -5,9 +5,9 @@
     justify-content: space-between;
 }
 
-@media screen and (max-width: 523px) {
+@media screen and (max-width: 550px) {
  .profile__info {
     min-height: 54px;
     align-items: center;
- }   
+ }
 }
