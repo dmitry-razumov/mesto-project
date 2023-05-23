@@ -2,6 +2,5 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    min-height: 361px;
     border-radius: 10px;
 }
