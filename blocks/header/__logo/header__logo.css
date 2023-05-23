@@ -3,9 +3,15 @@
     max-height: 33px;
 }
 
+@media screen and (max-width: 920px) {
+  .header__logo {
+      padding: 0 0 0 19px;
+  }
+}
+
 @media screen and (max-width: 550px) {
-    .header__logo {
-        padding: 0 0 0 27px;
-        max-height: 24.4px;
-    }
+  .header__logo {
+      padding: 0 0 0 27px;
+      max-height: 24.4px;
+  }
 }
