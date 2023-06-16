@@ -25,55 +25,23 @@
       <button type="button" class="button profile__button-add" aria-label="Добавить"></button>
     </section>
     <section class="elements" aria-label="Карточки с фотографиями">
-      <article class="element">
-        <img class="element__image" src="./images/karachevsk.jpg" alt="Карачаевск">
-        <div class="element__group">
-          <h2 class="element__title">Карачаевск</h2>
-          <button type="button" class="element__like" aria-label="Лайкнуть"></button>
-        </div>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/Autumnal-Efficiency.jpg" alt="Осень">
-        <div class="element__group">
-          <h2 class="element__title">Осень</h2>
-          <button type="button" class="element__like" aria-label="Лайкнуть"></button>
-        </div>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/dombai.jpg" alt="Домбай">
-        <div class="element__group">
-          <h2 class="element__title">Домбай</h2>
-          <button type="button" class="element__like" aria-label="Лайкнуть"></button>
-        </div>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/elbrus.png" alt="Гора Эльбрус">
-        <div class="element__group">
-          <h2 class="element__title">Гора Эльбрус</h2>
-          <button type="button" class="element__like" aria-label="Лайкнуть"></button>
-        </div>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/dombai.jpg" alt="Домбай">
-        <div class="element__group">
-          <h2 class="element__title">Домбай</h2>
-          <button type="button" class="element__like" aria-label="Лайкнуть"></button>
-        </div>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/karachevsk.jpg" alt="Карачаево-Черкессия">
-        <div class="element__group">
-          <h2 class="element__title">Карачаево-Черкессия</h2>
-          <button type="button" class="element__like" aria-label="Лайкнуть"></button>
-        </div>
-      </article>
+      <template id="element">
+        <article class="element">
+          <button type="button" class="element__trash" aria-label="Удалить"></button>
+          <img class="element__image">
+          <div class="element__group">
+            <h2 class="element__title">Название фото</h2>
+            <button type="button" class="element__like" aria-label="Лайкнуть"></button>
+          </div>
+        </article>
+      </template>
     </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&copy;2023 Mesto Russia</p>
   </footer>
-  <!-- <div class="popup popup_opened"> -->
-  <div class="popup">
+
+  <div class="popup popup_edit">
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="form" name="form-edit-profile">
@@ -84,5 +52,27 @@
       <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
     </div>
   </div>
+
+  <div class="popup popup_add">
+    <div class="popup__container">
+      <h2 class="popup__title">Новое место</h2>
+      <form class="form" name="form-new-card">
+        <input type="text" name="name" required placeholder="Название" class="form__input">
+        <input type="url" name="url" required placeholder="Ссылка на картинку" class="form__input">
+        <button type="submit" class="button form__button-save" aria-label="Создать">Создать</button>
+      </form>
+      <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
+    </div>
+  </div>
+
+  <div class="popup popup_view">
+    <div class="popup__container popup__container_view">
+      <img class="popup__img">
+      <h2 class="popup__img-title">Название фото</h2>
+      <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
