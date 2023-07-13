@@ -2,44 +2,25 @@ import {initCards} from "./components/card.js"
 import {
   handleFormEditSubmit,
   handleFormAddSubmit,
-  popupViewContainer,
-  popupViewCloseButton,
+  handleProfileEditButton,
+  handleprofileAddButton,
+  handlePopupClick,
   profileEditButton,
   profileAddButton,
-  popupEditContainer,
   popupEditForm,
-  popupEditCloseButton,
-  popupAddContainer,
-  popupAddForm,
-  popupAddCloseButton,
-  updateProfileItems
+  popupAddForm
 } from "./components/modal.js"
-import {openPopup, closePopup} from "./components/util.js";
+
+const popupContainers = document.querySelectorAll('.popup');
 
 initCards();
 
 popupEditForm.addEventListener('submit', handleFormEditSubmit);
-
-popupEditCloseButton.addEventListener('click', () => {
-  closePopup(popupEditContainer);
-});
-
-profileEditButton.addEventListener('click', () => {
-  updateProfileItems();
-  openPopup(popupEditContainer);
-});
-
 popupAddForm.addEventListener('submit', handleFormAddSubmit);
 
-popupAddCloseButton.addEventListener('click', () => {
-  closePopup(popupAddContainer);
-});
+profileEditButton.addEventListener('click', handleProfileEditButton);
+profileAddButton.addEventListener('click', handleprofileAddButton);
 
-profileAddButton.addEventListener('click', () => {
-  popupAddForm.reset();
-  openPopup(popupAddContainer);
-});
-
-popupViewCloseButton.addEventListener('click', () => {
-  closePopup(popupViewContainer);
+popupContainers.forEach((popupContainer) => {
+  popupContainer.addEventListener('click', handlePopupClick)
 });
