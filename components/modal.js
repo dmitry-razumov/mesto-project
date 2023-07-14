@@ -1,5 +1,5 @@
-import {prependCard} from "./card.js"
-import {openPopup, closePopup} from "./utils.js";
+import { prependCard } from "./card.js"
+import { openPopup, closePopup } from "./utils.js";
 
 export const popupViewContainer = document.querySelector('.popup_view');
 
@@ -39,7 +39,7 @@ export function handleFormEditSubmit(evt) {
   profileName.textContent = popupEditFormInputItems[0].value;
   profileDescription.textContent = popupEditFormInputItems[1].value;
   closePopup(popupEditContainer);
-}
+};
 
 export function handleFormAddSubmit(evt) {
   evt.preventDefault();
@@ -49,7 +49,7 @@ export function handleFormAddSubmit(evt) {
   }
   prependCard(item);
   closePopup(popupAddContainer);
-}
+};
 
 export function handlePopupClick(evt) {
   if (evt.target.classList.contains(POPUP__BUTTON_CLOSE)

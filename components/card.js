@@ -1,5 +1,5 @@
-import {openPopup} from "./utils.js"
-import {popupViewContainer} from "./modal.js"
+import { openPopup } from "./utils.js"
+import { popupViewContainer } from "./modal.js"
 
 const elementsContainer = document.querySelector('.elements');
 const popupImg = popupViewContainer.querySelector('.popup__img');
@@ -71,4 +71,4 @@ function initCards() {
   });
 };
 
-export {initCards, prependCard};
+export { initCards, prependCard };

@@ -1,4 +1,4 @@
-import {initCards} from "./components/card.js"
+import { initCards } from "./components/card.js"
 import {
   handleFormEditSubmit,
   handleFormAddSubmit,
@@ -23,14 +23,16 @@ profileEditButton.addEventListener('click', handleProfileEditButton);
 profileAddButton.addEventListener('click', handleprofileAddButton);
 
 popupContainers.forEach((popupContainer) => {
-  popupContainer.addEventListener('click', handlePopupClick)
+  popupContainer.addEventListener('mousedown', handlePopupClick)
 });
 
-enableValidation({
+export const selectorSet = {
   formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button-save',
   inactiveButtonClass: 'form__button-save_disabled',
   inputErrorClass: 'form__input_type_error',
   errorClass: 'form__input-error_active'
-});
+};
+
+enableValidation(selectorSet);
