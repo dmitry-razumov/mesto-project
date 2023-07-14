@@ -1,4 +1,4 @@
-import {openPopup} from "./util.js"
+import {openPopup} from "./utils.js"
 import {popupViewContainer} from "./modal.js"
 
 const elementsContainer = document.querySelector('.elements');

@@ -1,5 +1,5 @@
 import {prependCard} from "./card.js"
-import {openPopup, closePopup} from "./util.js";
+import {openPopup, closePopup} from "./utils.js";
 
 export const popupViewContainer = document.querySelector('.popup_view');
 

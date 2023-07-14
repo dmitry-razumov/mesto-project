@@ -2,9 +2,21 @@
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
-  line-height: 15px;
-  margin-top: 5px;
+  /* line-height: 15px; */
+  line-height: 1;
+  margin: 5px 0 0;
   color: #ff0000;
-  height: 12px;
+  /* height: 12px; */
+  min-height: 25px;
   opacity: 0;
+}
+
+.form__input-error:last-of-type {
+  min-height: 43px;
+}
+
+@media screen and (max-width: 550px) {
+  .form__input:last-of-type {
+    min-height: 40px;
+  }
 }

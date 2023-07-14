@@ -13,6 +13,11 @@ const hideInputError = (formElement, inputElement, objs) => {
 };
 
 const checkInputValidity = (formElement, inputElement, objs) => {
+  if (inputElement.validity.patternMismatch) {
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+  } else {
+    inputElement.setCustomValidity("");
+  }
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, objs);
   } else {
