@@ -1,5 +1,7 @@
+import { selectorSet } from "../pages/index.js";
 import { prependCard } from "./card.js"
 import { openPopup, closePopup } from "./utils.js";
+import { hideInputError, toggleButtonState } from "./validate.js";
 
 export const popupViewContainer = document.querySelector('.popup_view');
 
@@ -11,41 +13,60 @@ const profileDescription = profileContainer.querySelector('.profile__description
 
 const popupEditContainer = document.querySelector('.popup_edit');
 export const popupEditForm = popupEditContainer.querySelector('.form');
-const popupEditFormInputItems = popupEditForm.querySelectorAll('.form__input');
+const popupEditFormInputName = popupEditForm.querySelector('.form__input_edit_name');
+const popupEditFormInputDescription = popupEditForm.querySelector('.form__input_edit_description');
 
 const popupAddContainer = document.querySelector('.popup_add');
 export const popupAddForm = popupAddContainer.querySelector('.form');
-const popupAddFormInputItems = popupAddForm.querySelectorAll('.form__input');
+const popupAddFormInputTitle = popupAddForm.querySelector('.form__input_add_title');
+const popupAddFormInputUrl = popupAddForm.querySelector('.form__input_add_url');
 
 const POPUP__BUTTON_CLOSE = 'popup__button-close';
 
 function updateProfileItems() {
-  popupEditFormInputItems[0].value = profileName.textContent;
-  popupEditFormInputItems[1].value = profileDescription.textContent;
+  popupEditFormInputName.value = profileName.textContent;
+  popupEditFormInputDescription.value = profileDescription.textContent;
 };
+
+function clearInputErrorMessages(element) {
+  const inputList = Array.from(element.querySelectorAll(selectorSet.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(element, inputElement, selectorSet);
+  });
+};
+
+function disableSubmitButton(element) {
+  const inputList = Array.from(element.querySelectorAll(selectorSet.inputSelector));
+  const buttonElement = element.querySelector(selectorSet.submitButtonSelector);
+  toggleButtonState(inputList, buttonElement, selectorSet.inactiveButtonClass);
+}
 
 export function handleProfileEditButton() {
   updateProfileItems();
   openPopup(popupEditContainer);
+  clearInputErrorMessages(popupEditContainer);
+  disableSubmitButton(popupEditContainer);
 };
 
 export function handleprofileAddButton() {
   popupAddForm.reset();
   openPopup(popupAddContainer);
+  clearInputErrorMessages(popupAddContainer);
+  disableSubmitButton(popupAddContainer);
 };
 
 export function handleFormEditSubmit(evt) {
   evt.preventDefault();
-  profileName.textContent = popupEditFormInputItems[0].value;
-  profileDescription.textContent = popupEditFormInputItems[1].value;
+  profileName.textContent = popupEditFormInputName.value;
+  profileDescription.textContent = popupEditFormInputDescription.value;
   closePopup(popupEditContainer);
 };
 
 export function handleFormAddSubmit(evt) {
   evt.preventDefault();
   const item = {
-    name: popupAddFormInputItems[0].value,
-    link: popupAddFormInputItems[1].value
+    name: popupAddFormInputTitle.value,
+    link: popupAddFormInputUrl.value
   }
   prependCard(item);
   closePopup(popupAddContainer);

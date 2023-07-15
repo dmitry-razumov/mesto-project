@@ -1,5 +1,5 @@
-import './pages/index.css';
-import { initCards } from "./components/card.js"
+import './index.css';
+import { initCards } from "../components/card.js"
 import {
   handleFormEditSubmit,
   handleFormAddSubmit,
@@ -10,8 +10,8 @@ import {
   profileAddButton,
   popupEditForm,
   popupAddForm
-} from "./components/modal.js"
-import { enableValidation } from "./components/validate.js";
+} from "../components/modal.js"
+import { enableValidation } from "../components/validate.js";
 
 const popupContainers = document.querySelectorAll('.popup');
 

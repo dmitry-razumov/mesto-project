@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Место</title>
-  <!-- <link rel="stylesheet" href="pages/index.css"> -->
 </head>
 <body class="page">
   <header class="header">
@@ -48,12 +47,12 @@
         <input id="name-input" type="text" name="name" required
           minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
           data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
-          placeholder="Имя" class="form__input">
+          placeholder="Имя" class="form__input form__input_edit_name">
         <span class="name-input-error form__input-error"></span>
         <input id="description-input" type="text" name="description" required
           minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
           data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
-          placeholder="О себе" class="form__input">
+          placeholder="О себе" class="form__input form__input_edit_description">
         <span class="description-input-error form__input-error"></span>
         <button type="submit" class="button form__button-save" aria-label="Сохранить">Сохранить</button>
       </form>
@@ -68,9 +67,10 @@
         <input id="title-input" type="text" name="title" required
           minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯёЁ\-\s]+$"
           data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
-          placeholder="Название" class="form__input">
+          placeholder="Название" class="form__input form__input_add_title">
         <span class="title-input-error form__input-error"></span>
-        <input id="url-input" type="url" name="url" required placeholder="Ссылка на картинку" class="form__input">
+        <input id="url-input" type="url" name="url" required placeholder="Ссылка на картинку"
+          class="form__input form__input_add_url">
         <span class="url-input-error form__input-error"></span>
         <button type="submit" class="button form__button-save" aria-label="Создать">Создать</button>
       </form>
@@ -85,7 +85,5 @@
       <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
     </div>
   </div>
-
-  <!-- <script type="module" src="index.js"></script> -->
 </body>
 </html>
