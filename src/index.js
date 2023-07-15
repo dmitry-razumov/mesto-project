@@ -1,3 +1,4 @@
+import './pages/index.css';
 import { initCards } from "./components/card.js"
 import {
   handleFormEditSubmit,

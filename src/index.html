@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Место</title>
-  <link rel="stylesheet" href="pages/index.css">
+  <!-- <link rel="stylesheet" href="pages/index.css"> -->
 </head>
 <body class="page">
   <header class="header">
-    <img class="header__logo" src="./images/logo.svg" alt="Logo MestoRussia">
+    <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Logo MestoRussia">
   </header>
   <main class="content">
     <section class="profile">
       <div class="profile__group">
-        <img class="profile__avatar" src="./images/female-carnivoran.png" alt="Кусто Аватар">
+        <img class="profile__avatar" src="<%=require('./images/female-carnivoran.png')%>" alt="Кусто Аватар">
         <div class="profile__info">
           <div class="profile__name-edit">
             <h1 class="profile__name">Жанна-Ив Кустоун</h1>
@@ -86,6 +86,6 @@
     </div>
   </div>
 
-  <script type="module" src="index.js"></script>
+  <!-- <script type="module" src="index.js"></script> -->
 </body>
 </html>
