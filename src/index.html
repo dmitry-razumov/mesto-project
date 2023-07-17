@@ -30,7 +30,10 @@
           <img class="element__image">
           <div class="element__group">
             <h2 class="element__title">Название фото</h2>
-            <button type="button" class="element__like" aria-label="Лайкнуть"></button>
+            <div class="element__like-group">
+              <button type="button" class="element__like" aria-label="Лайкнуть"></button>
+              <p class="element__like-counter"></p>
+            </div>
           </div>
         </article>
       </template>
@@ -54,7 +57,7 @@
           data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
           placeholder="О себе" class="form__input form__input_edit_description">
         <span class="description-input-error form__input-error"></span>
-        <button type="submit" class="button form__button-save form__button-save_edit" aria-label="Сохранить">Сохранить</button>
+        <button type="submit" class="button form__button-save" aria-label="Сохранить">Сохранить</button>
       </form>
       <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
     </div>
@@ -72,7 +75,7 @@
         <input id="url-input" type="url" name="url" required placeholder="Ссылка на картинку"
           class="form__input form__input_add_url">
         <span class="url-input-error form__input-error"></span>
-        <button type="submit" class="button form__button-save form__button-save_add" aria-label="Создать">Создать</button>
+        <button type="submit" class="button form__button-save" aria-label="Создать">Создать</button>
       </form>
       <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
     </div>
@@ -82,6 +85,19 @@
     <div class="popup__container popup__container_view">
       <img class="popup__img">
       <h2 class="popup__img-title">Название фото</h2>
+      <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
+    </div>
+  </div>
+
+  <div class="popup popup_avatar">
+    <div class="popup__container">
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form class="form" name="form-edit-avatar" novalidate>
+        <input id="url-input" type="url" name="url" required placeholder="Ссылка на аватар"
+          class="form__input form__input_ava_url">
+        <span class="url-input-error form__input-error"></span>
+        <button type="submit" class="button form__button-save" aria-label="Сохранить">Сохранить</button>
+      </form>
       <button type="button" class="button popup__button-close" aria-label="Закрыть"></button>
     </div>
   </div>

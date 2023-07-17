@@ -1,3 +1,7 @@
+import { setButtonText } from "./utils.js";
+import { initCards, prependCard, removeCard, updateLike } from "./card.js";
+import { updateProfileInfo } from "./modal.js"
+
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
   headers: {
@@ -17,22 +21,13 @@ const logError = (err) => {
   console.log(err);
 };
 
-import { initCards, prependCard, removeCard } from "./card.js";
-import { updateProfileInfo, setEditButtonInProcess, setAddButtonInProcess } from "./modal.js"
-
 export const getUser = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
   })
   .then(getResponse)
   .then(user => updateProfileInfo(user))
-  .catch((err) => {
-    logError(err);
-    // updateProfileInfo({
-    //   name:err,
-    //   about:err
-    // });
-  });
+  .catch(logError);
 };
 
 export const getCards = () => {
@@ -41,18 +36,10 @@ export const getCards = () => {
   })
   .then(getResponse)
   .then(cards => initCards(cards))
-  .catch((err) => {
-    logError(err);
-    // updateProfileInfo({
-    //   name:err,
-    //   about:err,
-    //   avatar:'',
-    //   userId:null
-    // });
-  });
+  .catch(logError);
 };
 
-export const updateUser = (user) => {
+export const updateUser = (evt, user, buttonText) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
@@ -65,15 +52,13 @@ export const updateUser = (user) => {
   .then((user) => {
     updateProfileInfo(user)
   })
-  .catch((err) => {
-    logError(err);
-  })
+  .catch(logError)
   .finally(() => {
-    setEditButtonInProcess(false);
+    setButtonText(evt, buttonText);
   });
 };
 
-export const addCard = (card) => {
+export const addCard = (evt, card, buttonText) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
@@ -86,27 +71,62 @@ export const addCard = (card) => {
   .then((card) => {
     prependCard(card)
   })
-  .catch((err) => {
-    logError(err);
-  })
+  .catch(logError)
   .finally(() => {
-    setAddButtonInProcess(false);
+    setButtonText(evt, buttonText);
   });
 };
 
-export const deleteCard = (id) => {
+export const deleteCard = (evt, id) => {
   return fetch(`${config.baseUrl}/cards/${id}`, {
     method: 'DELETE',
     headers: config.headers,
   })
   .then(getResponse)
   .then(() => {
-    removeCard(id)
+    removeCard(evt)
   })
-  .catch((err) => {
-    logError(err);
+  .catch(logError);
+};
+
+export const addLike = (evt, id) => {
+  return fetch(`${config.baseUrl}/cards/likes/${id}`, {
+    method: 'PUT',
+    headers: config.headers,
+  })
+  .then(getResponse)
+  .then((card) => {
+    updateLike(evt, card)
+  })
+  .catch(logError);
+};
+
+export const removeLike = (evt, id) => {
+  return fetch(`${config.baseUrl}/cards/likes/${id}`, {
+    method: 'DELETE',
+    headers: config.headers,
+  })
+  .then(getResponse)
+  .then((card) => {
+    updateLike(evt, card)
+  })
+  .catch(logError);
+};
+
+export const updateAvatar = (evt, url, buttonText) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: url
+    })
+  })
+  .then(getResponse)
+  .then((user) => {
+    updateProfileInfo(user)
+  })
+  .catch(logError)
+  .finally(() => {
+    setButtonText(evt, buttonText);
   });
-  // .finally(() => {
-  //   setAddButtonInProcess(false);
-  // });
 };

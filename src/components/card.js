@@ -1,65 +1,51 @@
 import { openPopup } from "./utils.js"
 import { popupViewContainer, popupImg, popupTitle, userId } from "./modal.js"
+import { deleteCard, addLike, removeLike } from "./api.js";
 
 const elementsContainer = document.querySelector('.elements');
 
-
-// export const initialCards = [
-//   {
-//     name: 'Архыз',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-//   },
-//   {
-//     name: 'Челябинская область',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-//   },
-//   {
-//     name: 'Иваново',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-//   },
-//   {
-//     name: 'Камчатка',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-//   },
-//   {
-//     name: 'Холмогорский район',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-//   },
-//   {
-//     name: 'Байкал',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-//   }
-// ];
-export function removeCard(item) {
-  // const elementList = Array.from(elementsContainer.querySelectorAll('.element'));
-  // elementList.forEach((element) => {
-  //   if (element.value === item._id)
-  // });
-  // evt => evt.target.parentElement.remove()
+export function removeCard(evt) {
+  evt.target.parentElement.remove();
 };
 
-import { deleteCard } from "./api.js";
+export function updateLike(evt, card) {
+  evt.target.parentElement.querySelector('.element__like-counter').textContent = card.likes.length;
+  evt.target.classList.toggle('element__like_active');
+};
 
 function createCard(item) {
   const cardTemplate = elementsContainer.querySelector('#element').content;
   const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
   const imageElement = cardElement.querySelector('.element__image');
   const likeElement = cardElement.querySelector('.element__like');
+  const likeCounterElement = cardElement.querySelector('.element__like-counter');
   const trashElement = cardElement.querySelector('.element__trash');
 
-  cardElement.value = item._id;
   imageElement.src = item.link;
   imageElement.alt = item.name;
   cardElement.querySelector('.element__title').textContent = item.name;
+  likeCounterElement.textContent = item.likes.length;
 
-  likeElement.addEventListener('click',
-    evt => evt.target.classList.toggle('element__like_active')
-  );
+  likeElement.classList.remove('element__like_active');
+
+  item.likes.forEach((user) => {
+    if (user._id === userId) {
+      likeElement.classList.add('element__like_active');
+    }
+  });
+
+  likeElement.addEventListener('click', (evt) => {
+    if (!likeElement.classList.contains('element__like_active')) {
+      addLike(evt, item._id);
+    } else {
+      removeLike(evt, item._id);
+    }
+  });
 
   if (item.owner._id !== userId) {
     trashElement.remove();
   } else {
-    trashElement.addEventListener('click', deleteCard(item._id));
+    trashElement.addEventListener('click', (evt) => deleteCard(evt, item._id));
   }
 
   imageElement.addEventListener('click', (evt) => {

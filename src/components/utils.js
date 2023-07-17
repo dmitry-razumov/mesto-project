@@ -1,3 +1,7 @@
+export function setButtonText(evt, text) {
+  evt.target.querySelector('.form__button-save').textContent = text;
+};
+
 function handleKeyEsc(evt) {
   if (evt.key === 'Escape') {
     const currentOpenedPopup = document.querySelector('.popup_opened');

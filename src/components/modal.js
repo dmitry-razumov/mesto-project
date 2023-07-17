@@ -1,6 +1,6 @@
 import { selectorSet } from "../pages/index.js";
-import { prependCard } from "./card.js"
-import { openPopup, closePopup } from "./utils.js";
+import { addCard, updateUser, updateAvatar } from "./api.js"
+import { openPopup, closePopup, setButtonText } from "./utils.js";
 import { hideInputError, toggleButtonState } from "./validate.js";
 
 export const popupViewContainer = document.querySelector('.popup_view');
@@ -18,13 +18,15 @@ const popupEditContainer = document.querySelector('.popup_edit');
 export const popupEditForm = popupEditContainer.querySelector('.form');
 const popupEditFormInputName = popupEditForm.querySelector('.form__input_edit_name');
 const popupEditFormInputDescription = popupEditForm.querySelector('.form__input_edit_description');
-const popupEditFormButton = popupEditForm.querySelector('.form__button-save_edit');
 
 const popupAddContainer = document.querySelector('.popup_add');
 export const popupAddForm = popupAddContainer.querySelector('.form');
 const popupAddFormInputTitle = popupAddForm.querySelector('.form__input_add_title');
 const popupAddFormInputUrl = popupAddForm.querySelector('.form__input_add_url');
-const popupAddFormButton = popupAddForm.querySelector('.form__button-save_add');
+
+const popupAvatarContainer = document.querySelector('.popup_avatar');
+export const popupAvatarForm = popupAvatarContainer.querySelector('.form');
+const popupAvatarFormInputUrl = popupAvatarForm.querySelector('.form__input_ava_url');
 
 const POPUP__BUTTON_CLOSE = 'popup__button-close';
 
@@ -33,12 +35,8 @@ export let userId;
 export function updateProfileInfo(user) {
   profileName.textContent = user.name;
   profileDescription.textContent = user.about;
-  if (user.hasOwnProperty('avatar')) {
-    profileAvatar.src = user.avatar;
-  }
-  if (user.hasOwnProperty('_id')) {
-    userId = user._id;
-  }
+  profileAvatar.src = user.avatar;
+  userId = user._id;
 };
 
 function updateEditFormInputs() {
@@ -73,47 +71,38 @@ export function handleProfileAddButton() {
   disableSubmitButton(popupAddContainer);
 };
 
-import { addCard, updateUser } from "./api.js"
-
-export function setEditButtonInProcess(state) {
-  if (state) {
-    popupEditFormButton.textContent = 'Сохранение...';
-  } else {
-    popupEditFormButton.textContent = 'Сохранить';
-  }
+export function handleProfileAvatar() {
+  popupAvatarForm.reset();
+  openPopup(popupAvatarContainer);
+  clearInputErrorMessages(popupAvatarContainer);
+  disableSubmitButton(popupAvatarContainer);
 };
 
 export function handleFormEditSubmit(evt) {
   evt.preventDefault();
-  setEditButtonInProcess(true);
-  updateUser({
+  setButtonText(evt, 'Сохранение...');
+  updateUser(evt, {
     name:popupEditFormInputName.value,
     about:popupEditFormInputDescription.value
-  });
-  // updateProfileInfo({
-  //   name:popupEditFormInputName.value,
-  //   about:popupEditFormInputDescription.value
-  // });
+  }, 'Сохранить');
   closePopup(popupEditContainer);
-};
-
-export function setAddButtonInProcess(state) {
-  if (state) {
-    popupAddFormButton.textContent = 'Сохранение...';
-  } else {
-    popupAddFormButton.textContent = 'Сохранить';
-  }
 };
 
 export function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  setAddButtonInProcess(true);
-  addCard({
+  setButtonText(evt, 'Сохранение...');
+  addCard(evt, {
     name: popupAddFormInputTitle.value,
     link: popupAddFormInputUrl.value
-  });
-  // prependCard(item);
+  }, 'Создать');
   closePopup(popupAddContainer);
+};
+
+export function handleFormAvatarSubmit(evt) {
+  evt.preventDefault();
+  setButtonText(evt, 'Сохранение...');
+  updateAvatar(evt, popupAvatarFormInputUrl.value, 'Сохранить');
+  closePopup(popupAvatarContainer);
 };
 
 export function handlePopupClick(evt) {
@@ -122,4 +111,5 @@ export function handlePopupClick(evt) {
     closePopup(evt.currentTarget);
   }
 };
+
 
