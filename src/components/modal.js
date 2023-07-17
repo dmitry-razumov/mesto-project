@@ -1,6 +1,7 @@
-import { selectorSet } from "../pages/index.js";
+import { selectorSet, logError } from "../pages/index.js";
 import { addCard, updateUser, updateAvatar } from "./api.js"
-import { openPopup, closePopup, setButtonText } from "./utils.js";
+import { prependCard } from "./card.js";
+import { openPopup, closePopup } from "./utils.js";
 import { hideInputError, toggleButtonState } from "./validate.js";
 
 export const popupViewContainer = document.querySelector('.popup_view');
@@ -78,31 +79,63 @@ export function handleProfileAvatar() {
   disableSubmitButton(popupAvatarContainer);
 };
 
-export function handleFormEditSubmit(evt) {
+function renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...') {
+  if (isLoading) {
+    button.textContent = loadingText
+  } else {
+    button.textContent = buttonText
+  }
+}
+
+function handleSubmit(request, evt, loadingText = "Сохранение...") {
   evt.preventDefault();
-  setButtonText(evt, 'Сохранение...');
-  updateUser(evt, {
-    name:popupEditFormInputName.value,
-    about:popupEditFormInputDescription.value
-  }, 'Сохранить');
-  closePopup(popupEditContainer);
-};
+  const submitButton = evt.submitter;
+  const initialText = submitButton.textContent;
+  renderLoading(true, submitButton, initialText, loadingText);
+  request()
+    .then(() => {
+      evt.target.reset();
+    })
+    .catch((err) => {
+      logError(err);
+    })
+    .finally(() => {
+      renderLoading(false, submitButton, initialText);
+    });
+}
+
+export function handleFormEditSubmit(evt) {
+  function makeRequest() {
+    return updateUser(popupEditFormInputName.value, popupEditFormInputDescription.value)
+      .then((userData) => {
+        profileName.textContent = userData.name;
+        profileDescription.textContent = userData.about;
+        closePopup(popupEditContainer);
+      });
+  }
+  handleSubmit(makeRequest, evt);
+}
 
 export function handleFormAddSubmit(evt) {
-  evt.preventDefault();
-  setButtonText(evt, 'Сохранение...');
-  addCard(evt, {
-    name: popupAddFormInputTitle.value,
-    link: popupAddFormInputUrl.value
-  }, 'Создать');
-  closePopup(popupAddContainer);
-};
+  function makeRequest() {
+    return addCard(popupAddFormInputTitle.value, popupAddFormInputUrl.value)
+      .then((card) => {
+        prependCard(card);
+        closePopup(popupAddContainer);
+      });
+  }
+  handleSubmit(makeRequest, evt);
+}
 
 export function handleFormAvatarSubmit(evt) {
-  evt.preventDefault();
-  setButtonText(evt, 'Сохранение...');
-  updateAvatar(evt, popupAvatarFormInputUrl.value, 'Сохранить');
-  closePopup(popupAvatarContainer);
+  function makeRequest() {
+    return updateAvatar(popupAvatarFormInputUrl.value)
+      .then((userData) => {
+        profileAvatar.src = userData.avatar;
+        closePopup(popupAvatarContainer);
+      });
+  }
+  handleSubmit(makeRequest, evt);
 };
 
 export function handlePopupClick(evt) {

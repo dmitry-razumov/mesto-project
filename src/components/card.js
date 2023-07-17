@@ -1,3 +1,4 @@
+import { logError } from "../pages/index.js";
 import { openPopup } from "./utils.js"
 import { popupViewContainer, popupImg, popupTitle, userId } from "./modal.js"
 import { deleteCard, addLike, removeLike } from "./api.js";
@@ -5,11 +6,12 @@ import { deleteCard, addLike, removeLike } from "./api.js";
 const elementsContainer = document.querySelector('.elements');
 
 export function removeCard(evt) {
-  evt.target.parentElement.remove();
+  evt.target.closest('.element').remove();
 };
 
 export function updateLike(evt, card) {
-  evt.target.parentElement.querySelector('.element__like-counter').textContent = card.likes.length;
+  evt.target.closest('.element__like-group')
+    .querySelector('.element__like-counter').textContent = card.likes.length;
   evt.target.classList.toggle('element__like_active');
 };
 
@@ -36,23 +38,38 @@ function createCard(item) {
 
   likeElement.addEventListener('click', (evt) => {
     if (!likeElement.classList.contains('element__like_active')) {
-      addLike(evt, item._id);
+      addLike(item._id)
+      .then((card) => {
+        updateLike(evt, card);
+      })
+      .catch(logError);
     } else {
-      removeLike(evt, item._id);
+      removeLike(item._id)
+      .then((card) => {
+        updateLike(evt, card);
+      })
+      .catch(logError);
     }
   });
 
   if (item.owner._id !== userId) {
     trashElement.remove();
   } else {
-    trashElement.addEventListener('click', (evt) => deleteCard(evt, item._id));
+    trashElement.addEventListener('click', (evt) =>
+      deleteCard(item._id)
+      .then(() => {
+        removeCard(evt);
+      })
+      .catch(logError)
+    );
   }
 
   imageElement.addEventListener('click', (evt) => {
     openPopup(popupViewContainer);
     popupImg.src = evt.target.src;
     popupImg.alt = evt.target.alt;
-    popupTitle.textContent = evt.target.parentElement.querySelector('.element__title').textContent;
+    popupTitle.textContent = evt.target.closest('.element')
+      .querySelector('.element__title').textContent;
   });
 
   return cardElement;
