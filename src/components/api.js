@@ -28,23 +28,23 @@ export const getCards = () =>
   });
 
 
-export const updateUser = (user) =>
+export const updateUser = (name, about) =>
   request(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
-      name: user.name,
-      about: user.about
+      name: name,
+      about: about
     })
   });
 
-export const addCard = (card) =>
+export const addCard = (name, link) =>
   request(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
-      name: card.name,
-      link: card.link
+      name: name,
+      link: link
     })
   });
 

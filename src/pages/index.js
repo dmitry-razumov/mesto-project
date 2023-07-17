@@ -22,7 +22,7 @@ import { initCards } from '../components/card';
 const popupContainers = document.querySelectorAll('.popup');
 
 export const logError = (err) => {
-  console.log(err);
+  console.log(err)
 };
 
 Promise.all([getUser(), getCards()])

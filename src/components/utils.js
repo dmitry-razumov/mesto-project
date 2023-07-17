@@ -1,7 +1,3 @@
-export function setButtonText(evt, text) {
-  evt.submitter.textContent = text;
-};
-
 function handleKeyEsc(evt) {
   if (evt.key === 'Escape') {
     const currentOpenedPopup = document.querySelector('.popup_opened');
