@@ -1,27 +1,33 @@
 import './index.css';
-import { initCards } from "../components/card.js"
 import {
   handleFormEditSubmit,
   handleFormAddSubmit,
+  handleFormAvatarSubmit,
   handleProfileEditButton,
-  handleprofileAddButton,
+  handleProfileAddButton,
+  handleProfileAvatar,
   handlePopupClick,
   profileEditButton,
   profileAddButton,
+  profileAvatar,
   popupEditForm,
-  popupAddForm
+  popupAddForm,
+  popupAvatarForm
 } from "../components/modal.js"
 import { enableValidation } from "../components/validate.js";
+import { getUser, getCards } from "../components/api.js"
 
 const popupContainers = document.querySelectorAll('.popup');
 
-initCards();
+getUser();
 
 popupEditForm.addEventListener('submit', handleFormEditSubmit);
 popupAddForm.addEventListener('submit', handleFormAddSubmit);
+popupAvatarForm.addEventListener('submit', handleFormAvatarSubmit);
 
 profileEditButton.addEventListener('click', handleProfileEditButton);
-profileAddButton.addEventListener('click', handleprofileAddButton);
+profileAddButton.addEventListener('click', handleProfileAddButton);
+profileAvatar.addEventListener('click', handleProfileAvatar);
 
 popupContainers.forEach((popupContainer) => {
   popupContainer.addEventListener('mousedown', handlePopupClick)
@@ -37,3 +43,4 @@ export const selectorSet = {
 };
 
 enableValidation(selectorSet);
+getCards();

@@ -4,4 +4,11 @@
     object-fit: cover;
     object-position: top;
     aspect-ratio: 1/1;
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}
+
+.profile__avatar:hover {
+  cursor: url(./../../../images/ava_cursor.svg), pointer;
+  opacity: 0.2;
 }

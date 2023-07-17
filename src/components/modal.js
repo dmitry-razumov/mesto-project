@@ -1,15 +1,18 @@
 import { selectorSet } from "../pages/index.js";
-import { prependCard } from "./card.js"
-import { openPopup, closePopup } from "./utils.js";
+import { addCard, updateUser, updateAvatar } from "./api.js"
+import { openPopup, closePopup, setButtonText } from "./utils.js";
 import { hideInputError, toggleButtonState } from "./validate.js";
 
 export const popupViewContainer = document.querySelector('.popup_view');
+export const popupImg = popupViewContainer.querySelector('.popup__img');
+export const popupTitle = popupViewContainer.querySelector('.popup__img-title');
 
 const profileContainer = document.querySelector('.profile');
 export const profileEditButton = profileContainer.querySelector('.profile__button-edit');
 export const profileAddButton = profileContainer.querySelector('.profile__button-add');
-const profileName = profileContainer.querySelector('.profile__name');
-const profileDescription = profileContainer.querySelector('.profile__description');
+export const profileName = profileContainer.querySelector('.profile__name');
+export const profileDescription = profileContainer.querySelector('.profile__description');
+export const profileAvatar = profileContainer.querySelector('.profile__avatar');
 
 const popupEditContainer = document.querySelector('.popup_edit');
 export const popupEditForm = popupEditContainer.querySelector('.form');
@@ -21,9 +24,22 @@ export const popupAddForm = popupAddContainer.querySelector('.form');
 const popupAddFormInputTitle = popupAddForm.querySelector('.form__input_add_title');
 const popupAddFormInputUrl = popupAddForm.querySelector('.form__input_add_url');
 
+const popupAvatarContainer = document.querySelector('.popup_avatar');
+export const popupAvatarForm = popupAvatarContainer.querySelector('.form');
+const popupAvatarFormInputUrl = popupAvatarForm.querySelector('.form__input_ava_url');
+
 const POPUP__BUTTON_CLOSE = 'popup__button-close';
 
-function updateProfileItems() {
+export let userId;
+
+export function updateProfileInfo(user) {
+  profileName.textContent = user.name;
+  profileDescription.textContent = user.about;
+  profileAvatar.src = user.avatar;
+  userId = user._id;
+};
+
+function updateEditFormInputs() {
   popupEditFormInputName.value = profileName.textContent;
   popupEditFormInputDescription.value = profileDescription.textContent;
 };
@@ -42,34 +58,51 @@ function disableSubmitButton(element) {
 }
 
 export function handleProfileEditButton() {
-  updateProfileItems();
+  updateEditFormInputs();
   openPopup(popupEditContainer);
   clearInputErrorMessages(popupEditContainer);
   disableSubmitButton(popupEditContainer);
 };
 
-export function handleprofileAddButton() {
+export function handleProfileAddButton() {
   popupAddForm.reset();
   openPopup(popupAddContainer);
   clearInputErrorMessages(popupAddContainer);
   disableSubmitButton(popupAddContainer);
 };
 
+export function handleProfileAvatar() {
+  popupAvatarForm.reset();
+  openPopup(popupAvatarContainer);
+  clearInputErrorMessages(popupAvatarContainer);
+  disableSubmitButton(popupAvatarContainer);
+};
+
 export function handleFormEditSubmit(evt) {
   evt.preventDefault();
-  profileName.textContent = popupEditFormInputName.value;
-  profileDescription.textContent = popupEditFormInputDescription.value;
+  setButtonText(evt, 'Сохранение...');
+  updateUser(evt, {
+    name:popupEditFormInputName.value,
+    about:popupEditFormInputDescription.value
+  }, 'Сохранить');
   closePopup(popupEditContainer);
 };
 
 export function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  const item = {
+  setButtonText(evt, 'Сохранение...');
+  addCard(evt, {
     name: popupAddFormInputTitle.value,
     link: popupAddFormInputUrl.value
-  }
-  prependCard(item);
+  }, 'Создать');
   closePopup(popupAddContainer);
+};
+
+export function handleFormAvatarSubmit(evt) {
+  evt.preventDefault();
+  setButtonText(evt, 'Сохранение...');
+  updateAvatar(evt, popupAvatarFormInputUrl.value, 'Сохранить');
+  closePopup(popupAvatarContainer);
 };
 
 export function handlePopupClick(evt) {
@@ -78,4 +111,5 @@ export function handlePopupClick(evt) {
     closePopup(evt.currentTarget);
   }
 };
+
 
