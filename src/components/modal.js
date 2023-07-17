@@ -1,5 +1,6 @@
-import { selectorSet } from "../pages/index.js";
+import { selectorSet, logError } from "../pages/index.js";
 import { addCard, updateUser, updateAvatar } from "./api.js"
+import { prependCard } from "./card.js";
 import { openPopup, closePopup, setButtonText } from "./utils.js";
 import { hideInputError, toggleButtonState } from "./validate.js";
 
@@ -81,28 +82,49 @@ export function handleProfileAvatar() {
 export function handleFormEditSubmit(evt) {
   evt.preventDefault();
   setButtonText(evt, 'Сохранение...');
-  updateUser(evt, {
+  updateUser({
     name:popupEditFormInputName.value,
     about:popupEditFormInputDescription.value
-  }, 'Сохранить');
-  closePopup(popupEditContainer);
+  })
+  .then((user) => {
+    updateProfileInfo(user)
+    closePopup(popupEditContainer);
+  })
+  .catch(logError)
+  .finally(() => {
+    setButtonText(evt, 'Сохранить');
+  });
 };
 
 export function handleFormAddSubmit(evt) {
   evt.preventDefault();
   setButtonText(evt, 'Сохранение...');
-  addCard(evt, {
+  addCard({
     name: popupAddFormInputTitle.value,
     link: popupAddFormInputUrl.value
-  }, 'Создать');
-  closePopup(popupAddContainer);
+  })
+  .then((card) => {
+    prependCard(card);
+    closePopup(popupAddContainer);
+  })
+  .catch(logError)
+  .finally(() => {
+    setButtonText(evt, 'Создать');
+  });
 };
 
 export function handleFormAvatarSubmit(evt) {
   evt.preventDefault();
   setButtonText(evt, 'Сохранение...');
-  updateAvatar(evt, popupAvatarFormInputUrl.value, 'Сохранить');
-  closePopup(popupAvatarContainer);
+  updateAvatar(popupAvatarFormInputUrl.value)
+  .then((user) => {
+    updateProfileInfo(user);
+    closePopup(popupAvatarContainer);
+  })
+  .catch(logError)
+  .finally(() => {
+    setButtonText(evt, 'Сохранить');
+  });
 };
 
 export function handlePopupClick(evt) {

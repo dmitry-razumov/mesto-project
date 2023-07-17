@@ -16,10 +16,21 @@ import {
 } from "../components/modal.js"
 import { enableValidation } from "../components/validate.js";
 import { getUser, getCards } from "../components/api.js"
+import { updateProfileInfo } from '../components/modal.js';
+import { initCards } from '../components/card';
 
 const popupContainers = document.querySelectorAll('.popup');
 
-getUser();
+export const logError = (err) => {
+  console.log(err);
+};
+
+Promise.all([getUser(), getCards()])
+  .then(([user, cards]) => {
+    updateProfileInfo(user);
+    initCards(cards);
+  })
+  .catch(logError);
 
 popupEditForm.addEventListener('submit', handleFormEditSubmit);
 popupAddForm.addEventListener('submit', handleFormAddSubmit);
@@ -43,4 +54,3 @@ export const selectorSet = {
 };
 
 enableValidation(selectorSet);
-getCards();

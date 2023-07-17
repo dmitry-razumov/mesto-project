@@ -1,5 +1,5 @@
 export function setButtonText(evt, text) {
-  evt.target.querySelector('.form__button-save').textContent = text;
+  evt.submitter.textContent = text;
 };
 
 function handleKeyEsc(evt) {
